@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from django.views.generic import CreateView, ListView, DetailView
+from django.views.generic import CreateView, ListView, DetailView, UpdateView
 
 from . import models, forms
 
@@ -31,6 +31,12 @@ class NoteCreateView(CreateView):
     model = models.Note
     # template_name = "notes/note_form.html"
     # fields = ['title', 'text']
+    form_class = forms.NotesForm
+    success_url = '/notes/g'
+
+
+class NotesUpdateView(UpdateView):
+    model = models.Note
     form_class = forms.NotesForm
     success_url = '/notes/g'
 
