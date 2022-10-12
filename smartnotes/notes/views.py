@@ -34,12 +34,20 @@ class NoteCreateView(CreateView):
     form_class = forms.NotesForm
     success_url = '/notes/g'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['method'] = 'Create New'
+        return context
 
 class NotesUpdateView(UpdateView):
     model = models.Note
     form_class = forms.NotesForm
     success_url = '/notes/g'
-
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['method'] = 'Edit'
+        return context
 
 # resources
 # objects get saved in "object_list" or "(lowercased-model name)_list"
