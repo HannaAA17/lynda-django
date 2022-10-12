@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from django.views.generic import CreateView, ListView, DetailView, UpdateView
+from django.views.generic import CreateView, ListView, DetailView, UpdateView, DeleteView
 
 from . import models, forms
 
@@ -39,7 +39,8 @@ class NoteCreateView(CreateView):
         context['method'] = 'Create New'
         return context
 
-class NotesUpdateView(UpdateView):
+
+class NoteUpdateView(UpdateView):
     model = models.Note
     form_class = forms.NotesForm
     success_url = '/notes/g'
@@ -48,6 +49,12 @@ class NotesUpdateView(UpdateView):
         context = super().get_context_data(**kwargs)
         context['method'] = 'Edit'
         return context
+
+
+class NoteDeleteView(DeleteView):
+    model = models.Note
+    success_url = '/notes/g'
+
 
 # resources
 # objects get saved in "object_list" or "(lowercased-model name)_list"

@@ -15,5 +15,6 @@
     </div>
     
     <a href="{% url 'notes:note_update' pk=note.id %}" class="btn btn-secondary">Edit</a>
+    <a href="{% url 'notes:note_delete' pk=note.id %}" class="btn btn-danger">Delete</a>
     <a href="{% url 'notes:note_list' %}" class="btn btn-secondary my-5">Back</a>
 {% endblock %}
