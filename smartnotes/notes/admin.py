@@ -6,4 +6,4 @@ from . import models
 class NotesAdmin(admin.ModelAdmin):
     list_display = ('title',)
     
-admin.site.register(models.Notes, NotesAdmin)
+admin.site.register(models.Note, NotesAdmin)

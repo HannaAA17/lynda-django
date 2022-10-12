@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}
+    <title>{{note.title}}</title>
+{% endblock %}
+
+{% block content %}
+    <div class="border round">
+        <h1 class="my-5">{{note.title}}</h1>
+        <p>{{note.text}}</p>
+    </div>
+    
+    <div>
+        created at: {{note.created|date:"SHORT_DATETIME_FORMAT"}}
+    </div>
+    
+    <a href="{% url 'notes:note_list' %}" class="btn btn-secondary my-5">Back</a>
+{% endblock %}

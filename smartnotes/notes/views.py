@@ -6,25 +6,25 @@ from . import models
 
 # Create your views here.
 def notes_list(request):
-    all_notes = models.Notes.objects.all()
+    all_notes = models.Note.objects.all()
     return render(request, 'notes/notes_list.html', {'notes':all_notes})
 
 
 def notes_detail(request, pk):
-    note = get_object_or_404(models.Notes, pk=pk)
+    note = get_object_or_404(models.Note, pk=pk)
     return render(request, 'notes/notes_detail.html', {'note':note})
 
 
-class NotesListView(ListView):
-    model = models.Notes
-    context_object_name = "notes" # default: "notes_list" or "object_list"
-    template_name = "notes/notes_list.html"
+class NoteListView(ListView):
+    model = models.Note
+    context_object_name = "notes" # default: "note_list" or "object_list"
+    # template_name = "notes/note_list.html"
 
 
-class NotesDetailView(DetailView):
-    model = models.Notes
-    context_object_name = "note" # default: "notes" or "object"
-    template_name = "notes/notes_detail.html"
+class NoteDetailView(DetailView):
+    model = models.Note
+    # context_object_name = "note" # default: "note" or "object"
+    # template_name = "notes/note_detail.html"
 
 
 # resources
