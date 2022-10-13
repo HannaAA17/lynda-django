@@ -1,6 +1,7 @@
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import CreateView, ListView, DetailView, UpdateView, DeleteView
-
 from . import models, forms
 
 
@@ -15,19 +16,28 @@ def notes_detail(request, pk):
     return render(request, 'notes/notes_detail.html', {'note':note})
 
 
-class NoteListView(ListView):
+class NoteListView(LoginRequiredMixin, ListView):
+    login_url = '/login'
+
     model = models.Note
     context_object_name = "notes" # default: "note_list" or "object_list"
     # template_name = "notes/note_list.html"
+    
+    def get_queryset(self):
+        return self.request.user.notes.all()
 
 
-class NoteDetailView(DetailView):
+class NoteDetailView(LoginRequiredMixin, DetailView):
+    login_url = '/login'
+
     model = models.Note
     # context_object_name = "note" # default: "note" or "object"
     # template_name = "notes/note_detail.html"
 
 
-class NoteCreateView(CreateView):
+class NoteCreateView(LoginRequiredMixin, CreateView):
+    login_url = '/login'
+
     model = models.Note
     # template_name = "notes/note_form.html"
     # fields = ['title', 'text']
@@ -38,9 +48,17 @@ class NoteCreateView(CreateView):
         context = super().get_context_data(**kwargs)
         context['method'] = 'Create New'
         return context
+    
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.user = self.request.user
+        self.object.save()
+        return HttpResponseRedirect(self.get_success_url())
 
 
-class NoteUpdateView(UpdateView):
+class NoteUpdateView(LoginRequiredMixin, UpdateView):
+    login_url = '/login'
+
     model = models.Note
     form_class = forms.NotesForm
     success_url = '/notes/g'
@@ -51,7 +69,9 @@ class NoteUpdateView(UpdateView):
         return context
 
 
-class NoteDeleteView(DeleteView):
+class NoteDeleteView(LoginRequiredMixin, DeleteView):
+    login_url = '/login'
+
     model = models.Note
     success_url = '/notes/g'
 
